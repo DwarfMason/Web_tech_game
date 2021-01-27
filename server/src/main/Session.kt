@@ -142,7 +142,7 @@ class Session(_status: Status) {
                     currentTimer = Timer("Game $turn $id", false)
                     currentTimer.schedule(timerTask {
                         if (!calculating.get()) {
-                            doTurn(); running.set(false); calculating.set(false)
+                            doTurn(); running.set(false); calculating.set(false); currentTimer.cancel();
                         }
                     }, 5500)
                 }

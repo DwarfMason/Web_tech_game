@@ -2,7 +2,6 @@
 
 
 
-
 ### Server
 
 Спецификация пакетов: [здесь](packet-specs.md)
@@ -20,7 +19,7 @@ mvn clean install
 target/Server-1.0-SNAPSHOT-jar-with-dependencies - нужный файл.
 ```
 
-###JavaFx Client
+### JavaFx Client
 
 Для создания .jar файла установите maven 
 http://maven.apache.org/install.html

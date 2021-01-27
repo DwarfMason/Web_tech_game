@@ -3,6 +3,8 @@
 
 # Random stuff
 target
+*/.idea/*
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml

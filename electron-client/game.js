@@ -19,7 +19,8 @@ let config = {
         Scenes.Lobby,
         Scenes.Game,
         Scenes.GameUI,
-        Scenes.GameOver],
+        Scenes.GameOver,
+    ],
     pixelArt: true,
 };
 

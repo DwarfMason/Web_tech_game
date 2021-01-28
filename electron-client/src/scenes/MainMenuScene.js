@@ -133,6 +133,35 @@ class MainMenuScene extends Phaser.Scene {
 
             GameManager.socket.send({type: "JoinLobby", sessionId: lobbyNo});
         });
+
+        this.createButton(512, 700, "button", "Spectate", () => {
+            let lobbyNo = +this.lobbyIdText.text;
+            this.joinStatusText.text = "";
+
+            let em = GameManager.eventEmitter;
+            em.once("LobbyNotExist", () => {
+                this.joinStatusText.text = "This lobby does not exist.";
+                GameManager.eventEmitter.removeAllListeners();
+            });
+            em.once("GameNotYetStarted", () => {
+                this.joinStatusText.text = "This lobby has not started game yet.";
+                GameManager.eventEmitter.removeAllListeners();
+            });
+            em.once("GameStartSpectator", data => {
+                this.joinStatusText.text = "";
+                GameManager.eventEmitter.removeAllListeners();
+                this.scene.start("Game", {
+                    spectator: true,
+                    mapWidth: data.width,
+                    mapHeight: data.height,
+                    mapCells: data.mapCells,
+                    rivals: data.rivals,
+                    lobbyNo
+                });
+            });
+
+            GameManager.socket.send({type: "JoinLobbySpectator", sessionId: lobbyNo});
+        });
     }
 
     update(time, delta) {

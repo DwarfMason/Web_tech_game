@@ -16,7 +16,10 @@ class GameOverScene extends Phaser.Scene {
     }
 
     init(data) {
-        this.playerColor = data.currentPlayerColor;
+        this.spectator = data.spectator ?? false;
+        if (!this.spectator) {
+            this.playerColor = data.currentPlayerColor;
+        }
         for (let winner of data.playersWon) {
             this.winners.push(winner.color);
         }
@@ -75,7 +78,7 @@ class GameOverScene extends Phaser.Scene {
         let isWin = false;
         for (let i = 0; i < this.winners.length; ++i) {
             const col = this.winners[i];
-            if (col === this.playerColor) {
+            if (!this.spectator && col === this.playerColor) {
                 isWin = true;
             }
             let sprite = this.add.sprite(
@@ -87,8 +90,10 @@ class GameOverScene extends Phaser.Scene {
             sprite.setScale(CELL_SIZE / sprite.width, CELL_SIZE / sprite.height);
         }
 
-        let state = isWin ? "win" : "lose"
-        gameOverTitle.setText("You " + state);
+        let state = (isWin || this.spectator) ? "win" : "lose"
+        if (!this.spectator) {
+            gameOverTitle.setText("You " + state);
+        }
         let snd = this.sound.add(state);
         snd.play();
 

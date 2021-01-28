@@ -9,6 +9,9 @@ const GameStart = require("./GameStartResponse");
 const NewTurn = require("./NewTurnResponse");
 const WrongTurnId = require("./WrongTurnIdResponse");
 const GameOver = require("./GameOverResponse");
+const GameNotYetStarted = require("./GameNotYetStartedResponse");
+const GameStartSpectator = require("./GameStartSpectatorResponse");
+const NewTurnSpectator = require("./NewTurnSpectatorResponse");
 
 module.exports = {
     ServerConnected,
@@ -21,5 +24,8 @@ module.exports = {
     GameStart,
     NewTurn,
     WrongTurnId,
-    GameOver
+    GameOver,
+    GameNotYetStarted,
+    GameStartSpectator,
+    NewTurnSpectator
 }

@@ -87,6 +87,10 @@ class GameSocket {
                 requestClass: Requests.Move,
                 status: 205
             },
+            "JoinLobbySpectator": {
+                requestClass: Requests.JoinLobbySpectator,
+                status: 305
+            },
         });
         this._dispatcher = new Dispatcher({
             500: Responses.ServerConnected,
@@ -99,7 +103,10 @@ class GameSocket {
             510: Responses.GameStart,
             777: Responses.NewTurn,
             700: Responses.WrongTurnId,
-            555: Responses.GameOver
+            555: Responses.GameOver,
+            511: Responses.GameNotYetStarted,
+            513: Responses.GameStartSpectator,
+            770: Responses.NewTurnSpectator,
         });
     }
 

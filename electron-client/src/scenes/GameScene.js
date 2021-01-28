@@ -43,6 +43,8 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
+        this.load.audio("walk", "assets/sounds/walk.wav");
+
         this.load.image("empty", "assets/images/tileset_unknown.png");
         this.load.image("wall", "assets/images/tileset_wall.png");
         this.load.image("floor", "assets/images/tileset_floor.png");
@@ -104,6 +106,8 @@ class GameScene extends Phaser.Scene {
 
         this.redrawVisibleArea();
 
+        this.walkSnd = this.sound.add("walk");
+
         this.input.keyboard.on('keyup', (event) => {
             let dir;
             switch (event.keyCode) {
@@ -119,8 +123,11 @@ class GameScene extends Phaser.Scene {
                 case 40: // down
                     dir = "Down";
                     break;
+                default:
+                    return;
             }
             GameManager.socket.send({type: "Move" + dir, turnId: this.turnId});
+            this.walkSnd.play();
         });
 
         this.scene.launch("GameUI");

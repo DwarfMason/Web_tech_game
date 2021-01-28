@@ -1,7 +1,5 @@
-const EventEmitter = require("events").EventEmitter;
 const Phaser = require("phaser");
 const GameManager = require("../GameManager");
-const GameSocket = require("../network");
 
 class MainMenuScene extends Phaser.Scene {
     constructor() {
@@ -56,27 +54,27 @@ class MainMenuScene extends Phaser.Scene {
             fontSize: button.height * 0.5 + "px"
         }).setOrigin(0.5, 0.5);
 
-        let buttonWidth = button.width * button.scaleX;
-        let labelBounds = labelObject.getBounds();
-        let labelWidth = labelObject.width;
-
         let scale = Math.max(0.5, labelObject.width / (button.width) + 0.1);
         button.setScale(scale, 0.5);
 
-        button.setInteractive().on('pointerup', onClick);
+        let snd = this.sound.add("press");
+        button.setInteractive().on('pointerup', () => {
+            snd.play();
+            onClick();
+        });
 
         return button;
     }
 
-    create(data) {
-        const bg = this.add.sprite(0, 0, "bg").setOrigin(0, 0);
+    create() {
+        this.add.sprite(0, 0, "bg").setOrigin(0, 0);
         const connectTitle = this.add.text(512, 0, "Main menu", {
             fontFamily: "AvenuePixel",
             fontSize: "40px"
         }).setOrigin(0.5, 0);
 
 
-        let createLobbyBtn = this.createButton(512, 200, "button", "Create lobby", () => {
+        this.createButton(512, 200, "button", "Create lobby", () => {
             let em = GameManager.eventEmitter;
             em.once("LobbyCreated", (data) => {
                 GameManager.eventEmitter.removeAllListeners();
@@ -110,7 +108,7 @@ class MainMenuScene extends Phaser.Scene {
             fontSize: "40px"
         }).setOrigin(0.5, 0);
 
-        let joinLobbyBtn = this.createButton(512, 600, "button", "Join lobby", () => {
+        this.createButton(512, 600, "button", "Join lobby", () => {
             let lobbyNo = +this.lobbyIdText.text;
             this.joinStatusText.text = "";
 

@@ -22,6 +22,8 @@ class ConnectScene extends Phaser.Scene {
             sceneKey: 'rexUI'
         });
         this.load.plugin('rextexteditplugin', 'node_modules/phaser3-rex-plugins/dist/rextexteditplugin.min.js', true);
+
+        this.load.audio("press", "assets/sounds/press.wav");
     }
 
     createTextField(posX, posY, width, height, params) {
@@ -56,20 +58,20 @@ class ConnectScene extends Phaser.Scene {
             fontSize: button.height * 0.5 + "px"
         }).setOrigin(0.5, 0.5);
 
-        let buttonWidth = button.width * button.scaleX;
-        let labelBounds = labelObject.getBounds();
-        let labelWidth = labelObject.width;
-
         let scale = Math.max(0.5, labelObject.width / (button.width) + 0.1);
         button.setScale(scale, 0.5);
 
-        button.setInteractive().on('pointerup', onClick);
+        let snd = this.sound.add("press");
+        button.setInteractive().on('pointerup', () => {
+            snd.play();
+            onClick();
+        });
 
         return button;
     }
 
-    create(data) {
-        const bg = this.add.sprite(0, 0, "bg").setOrigin(0, 0);
+    create() {
+        this.add.sprite(0, 0, "bg").setOrigin(0, 0);
         const connectTitle = this.add.text(512, 0, "Connect to the server", {
             fontFamily: "AvenuePixel",
             fontSize: "40px"

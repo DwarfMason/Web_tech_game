@@ -1,7 +1,5 @@
-const EventEmitter = require("events").EventEmitter;
 const Phaser = require("phaser");
 const GameManager = require("../GameManager");
-const GameSocket = require("../network");
 
 class LobbyScene extends Phaser.Scene {
     constructor() {
@@ -34,14 +32,14 @@ class LobbyScene extends Phaser.Scene {
             fontSize: button.height * 0.5 + "px"
         }).setOrigin(0.5, 0.5);
 
-        let buttonWidth = button.width * button.scaleX;
-        let labelBounds = labelObject.getBounds();
-        let labelWidth = labelObject.width;
-
         let scale = Math.max(0.5, labelObject.width / (button.width) + 0.1);
         button.setScale(scale, 0.5);
 
-        button.setInteractive().on('pointerup', onClick);
+        let snd = this.sound.add("press");
+        button.setInteractive().on('pointerup', () => {
+            snd.play();
+            onClick();
+        });
 
         return new Phaser.GameObjects.Group(this, [button, labelObject]);
     }
@@ -52,14 +50,14 @@ class LobbyScene extends Phaser.Scene {
         }
     }
 
-    create(data) {
-        const bg = this.add.sprite(0, 0, "bg").setOrigin(0, 0);
+    create() {
+        this.add.sprite(0, 0, "bg").setOrigin(0, 0);
         const connectTitle = this.add.text(512, 0, `Lobby ${this.lobbyNo}`, {
             fontFamily: "AvenuePixel",
             fontSize: "40px"
         }).setOrigin(0.5, 0);
 
-        let backBtn = this.createButton(160, 90, "button", "Leave", () => {
+        this.createButton(160, 90, "button", "Leave", () => {
             let em = GameManager.eventEmitter;
             em.once("ServerConnected", () => {
                 GameManager.eventEmitter.removeAllListeners();

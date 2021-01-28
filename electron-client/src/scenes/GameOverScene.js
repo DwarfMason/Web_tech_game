@@ -35,6 +35,10 @@ class GameOverScene extends Phaser.Scene {
             sceneKey: 'rexUI'
         });
         this.load.plugin('rextexteditplugin', 'node_modules/phaser3-rex-plugins/dist/rextexteditplugin.min.js', true);
+
+        this.load.audio("win", "assets/sounds/win.wav");
+        this.load.audio("lose", "assets/sounds/lose.wav");
+
     }
 
     createButton(x, y, texture, label, onClick) {
@@ -47,14 +51,18 @@ class GameOverScene extends Phaser.Scene {
         let scale = Math.max(0.5, labelObject.width / (button.width) + 0.1);
         button.setScale(scale, 0.5);
 
-        button.setInteractive().on('pointerup', onClick);
+        let snd = this.sound.add("press");
+        button.setInteractive().on('pointerup', () => {
+            snd.play();
+            onClick();
+        });
 
         return button;
     }
 
     create() {
         this.add.sprite(0, 0, "bg").setOrigin(0, 0);
-        const gameOverTitle = this.add.text(512, 0, "You lose", {
+        const gameOverTitle = this.add.text(512, 0, "Game over", {
             fontFamily: "AvenuePixel",
             fontSize: "40px"
         }).setOrigin(0.5, 0);
@@ -64,10 +72,11 @@ class GameOverScene extends Phaser.Scene {
         const startX = 512 - ratsWidth / 2;
         const winnersY = 320;
 
+        let isWin = false;
         for (let i = 0; i < this.winners.length; ++i) {
             const col = this.winners[i];
             if (col === this.playerColor) {
-                gameOverTitle.setText("You win");
+                isWin = true;
             }
             let sprite = this.add.sprite(
                 startX + i * (CELL_SIZE + ratOffset),
@@ -77,6 +86,11 @@ class GameOverScene extends Phaser.Scene {
 
             sprite.setScale(CELL_SIZE / sprite.width, CELL_SIZE / sprite.height);
         }
+
+        let state = isWin ? "win" : "lose"
+        gameOverTitle.setText("You " + state);
+        let snd = this.sound.add(state);
+        snd.play();
 
         this.createButton(512, 600, "button", "Back", () => {
             let em = GameManager.eventEmitter;

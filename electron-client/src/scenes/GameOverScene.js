@@ -16,11 +16,12 @@ class GameOverScene extends Phaser.Scene {
     }
 
     init(data) {
+        this.playerColor = -1;
+        this.winners = [];
         this.spectator = data.spectator ?? false;
         if (!this.spectator) {
             this.playerColor = data.currentPlayerColor;
         }
-        this.winners = [];
         for (let winner of data.playersWon) {
             this.winners.push(winner.color);
         }

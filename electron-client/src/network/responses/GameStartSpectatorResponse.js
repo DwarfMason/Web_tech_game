@@ -25,7 +25,7 @@ class GameStartSpectatorResponse extends Response {
 
         for (let y = 0; y < height; ++y) {
             for (let x = 0; x < width; ++x) {
-                map[y][x] = +payload[3 + x + height*y];
+                map[x][y] = +payload[3 + x + height*y];
             }
         }
 

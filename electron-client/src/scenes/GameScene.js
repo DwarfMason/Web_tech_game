@@ -34,10 +34,17 @@ class GameScene extends Phaser.Scene {
     }
 
     init(data) {
+        this.spectator = false;
+        this.turnId = 0;
+        this.timer = 5500; // in ms
+        this.map = [];
+        this.players = {};
+        this.playerData = {};
+
         this.mapWidth = data.mapWidth;
         this.mapHeight = data.mapHeight;
         this.lobbyNo = data.lobbyNo;
-        this.spectator = this.spectator ?? false;
+        this.spectator = data.spectator ?? false;
         this.map = Array.from(Array(this.mapHeight), () => new Array(this.mapWidth));
 
         if (this.spectator) {
@@ -134,12 +141,7 @@ class GameScene extends Phaser.Scene {
         this.walkSnd = this.sound.add("walk");
 
         this.input.keyboard.on('keyup', (event) => {
-            if (this.spectator) {
-                if (event.keyCode === 27) { // Escape
-                    GameManager.socket.send({type: "LeaveLobby"});
-                }
-                return;
-            }
+            if (this.spectator) return;
             let dir;
             switch (event.keyCode) {
                 case 37: // left
@@ -247,14 +249,6 @@ class GameUIScene extends Phaser.Scene {
             fontSize: "24px"
         }).setOrigin(1, 0);
         this.lobbyNoText.setShadow(1, 1, '#000000', 2);
-
-        if (this.gameScene.spectator) {
-            let pressToLeave = this.add.text(512, 8, "Press Esc to leave", {
-                fontFamily: "AvenuePixel",
-                fontSize: "24px"
-            }).setOrigin(0.5, 0);
-            pressToLeave.setShadow(1, 1, '#000000', 2);
-        }
 
         this.timerG = this.add.graphics();
     }

@@ -120,6 +120,7 @@ class GameScene extends Phaser.Scene {
         this.cam = this.cameras.add(0, 0, 1024, 768, false, "MapCamera");
         this.cam.setBounds(0, 0, CELL_SIZE * this.mapWidth, CELL_SIZE * this.mapHeight, true);
         this.cam.setZoom(0.69);
+        this.cameras.main.setBounds(CELL_SIZE * this.mapWidth + 1, CELL_SIZE * this.mapHeight + 1, 1024, 768);
         if (this.spectator) {
             let zoomX = 1024 / (CELL_SIZE * this.mapWidth);
             let zoomY = 768 / (CELL_SIZE * this.mapHeight);
@@ -182,7 +183,7 @@ class GameScene extends Phaser.Scene {
                 this.scene.stop("GameUI");
 
                 this.scene.start("MainMenu");
-            }).once("GameOver", () => {
+            }).once("GameOver", data => {
                 GameManager.eventEmitter.removeAllListeners();
                 this.input.keyboard.removeAllListeners();
                 this.scene.stop("GameUI");

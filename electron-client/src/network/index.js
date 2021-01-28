@@ -54,6 +54,7 @@ class GameSocket {
         this._port = port;
         this._client = new net.Socket();
         this._emitter = emitter;
+        this._cache = "";
         this._serializer = new Serializer({
             "CreateLobby": {
                 requestClass: Requests.CreateLobby,
@@ -124,9 +125,16 @@ class GameSocket {
             if (typeof data !== "string") {
                 data = data.toString("ascii"); // Buffer
             }
-            let responses = data.split("\n");
-            for (let response of responses) {
+            this._cache += data;
+            let responses = this._cache.split("\n");
+            for (let i = 0; i < responses.length; ++i) {
+                let response = responses[i];
+                if (i === responses.length - 1) {
+                    this._cache = response;
+                    break;
+                }
                 if (response === "") continue;
+
                 let parsedData = this._dispatcher.parse(response);
                 parsedData["address"] = this._address;
                 parsedData["port"] = this._port;

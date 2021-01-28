@@ -20,6 +20,7 @@ class GameOverScene extends Phaser.Scene {
         if (!this.spectator) {
             this.playerColor = data.currentPlayerColor;
         }
+        this.winners = [];
         for (let winner of data.playersWon) {
             this.winners.push(winner.color);
         }

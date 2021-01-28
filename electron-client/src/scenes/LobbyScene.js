@@ -111,7 +111,8 @@ class LobbyScene extends Phaser.Scene {
                 },
                 mapWidth: data.mapSizeWidth,
                 mapHeight: data.mapSizeHeight,
-                visibleCells: data.visibleCells
+                visibleCells: data.visibleCells,
+                lobbyNo: this.lobbyNo,
             }
             this.scene.start("Game", sceneParams);
         });

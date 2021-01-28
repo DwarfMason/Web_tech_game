@@ -36,6 +36,7 @@ class GameScene extends Phaser.Scene {
         this.mapWidth = data.mapWidth;
         this.mapHeight = data.mapHeight;
         this.map = Array.from(Array(this.mapHeight), () => new Array(this.mapWidth));
+        this.lobbyNo = data.lobbyNo;
 
         this.currentPlayerColor = data.player.color;
         this.playerData[data.player.color] = {x: data.player.x, y: data.player.y};
@@ -181,6 +182,11 @@ class GameUIScene extends Phaser.Scene {
             fontSize: "36px"
         }).setOrigin(0, 1);
         this.turnIdText.setShadow(1, 1, '#000000', 2);
+
+        this.lobbyNoText = this.add.text(1016, 8, `Lobby ${this.gameScene.lobbyNo}`, {
+            fontFamily: "AvenuePixel",
+            fontSize: "24px"
+        }).setOrigin(1, 0);
 
         this.timerG = this.add.graphics();
     }

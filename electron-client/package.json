@@ -1,0 +1,60 @@
+{
+  "name": "nettech-rats",
+  "description": "NetTech Rats client written with Electron.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Yury Kurlykov",
+    "email": "sh1ftr@protonmail.ch"
+  },
+  "main": "main.js",
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "phaser": "^3.52.0",
+    "phaser3-rex-plugins": "^1.1.39"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.54",
+    "@electron-forge/maker-deb": "^6.0.0-beta.54",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
+    "@electron-forge/maker-zip": "^6.0.0-beta.54",
+    "electron": "^11.2.1"
+  },
+  "scripts": {
+    "start": "electron-forge start",
+    "test": "electron . --remote-debugging-port=9222",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "ignore": [
+          "\\.idea",
+          "\\.gitignore"
+        ],
+        "junk": true,
+        "asar": true
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "title": "NetTech Rats"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip"
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  }
+}

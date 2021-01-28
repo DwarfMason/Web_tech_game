@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NetTech Rats</title>
+
+    <style type="text/css">
+        @font-face {
+            font-family: AvenuePixel;
+            src: url("./assets/fonts/AvenuePixel-Regular.eot");
+            src: url("./assets/fonts/AvenuePixel-Regular.eot") format("eot"),
+            url("./assets/fonts/AvenuePixel-Regular.ttf") format("ttf"),
+            url("./assets/fonts/AvenuePixel-Regular.svg") format("svg");
+            font-weight: normal;
+            font-style: normal;
+        }
+        *{margin:0;padding:0;border:0;font-family: AvenuePixel,monospace;}
+        body{overflow:hidden;background: black;}
+    </style>
+    <script type="text/javascript">
+        function loadFont(name, url) {
+            let newFont = new FontFace(name, `url(${url})`);
+            newFont.load().then(function (loaded) {
+                document.fonts.add(loaded);
+            }).catch(function (error) {
+                return error;
+            });
+        }
+    </script>
+    <!--script src="node_modules/phaser/dist/phaser.js"></script-->
+    <!--script src="lib/phaser.js"></script-->
+    <!--script src="node_modules/phaser3-rex-plugins/dist/rexuiplugin.min.js"></script-->
+</head>
+<body>
+<div id="container"></div>
+<script src="game.js"></script>
+</body>
+</html>
